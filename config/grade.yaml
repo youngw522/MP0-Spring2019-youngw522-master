@@ -1,0 +1,120 @@
+name: "MP0"
+semester: "Spring2019"
+version: 1.0.0
+package: "edu.illinois.cs.cs125.spring2019.mp0.lib"
+grading:
+  timeout: PT5M
+  run: "docker run -m 1GB --cpus=1.0 --network none -v {{ gradeDir }}:/base cs125/mp0-spring2019-grader -Pgrade.capture -Pgrade.reporting.file=grade.json"
+  ignoreOutput:
+    - "^WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted.*"
+    - "^To honour the JVM settings for this build.*"
+    - "^Daemon will be stopped at the end of the build.*"
+    - "^> Configure.*"
+    - "^WARNING: The option setting 'android.enableUnitTestBinaryResources=true' is experimental and unsupported\\.$"
+    - "^The current default is 'false'\\.$"
+    - "^> Task .*"
+    - "^> Transform .*"
+scoring:
+  max: 100
+  selectors:
+    - checkstyle
+    - test
+forceCommitAfterPoints: true
+vcs:
+  git: true
+students:
+  location: email.txt
+  require: true
+  count: 1
+  suffix: "@illinois.edu"
+tasks:
+  - "lib:test"
+  - "app:testDebugUnitTest"
+reporting:
+  post: "https://cs125-reporting.cs.illinois.edu/progress"
+notes:
+  "Note that the maximum local grade is 90/100. 10 points will be provided
+  during official grading if you have submitted code that earns at least 30
+  points by Friday 2/1/2019 at 5PM."
+checkstyle:
+  name: "checkstyle Tests"
+  missing:
+    score: 0
+    message: "checkstyle failed to run"
+    name: "checkstyle"
+  selectors:
+    - selector: "count(//file/error) = 0"
+      score: 10
+      message: "No checkstyle errors were found"
+      name: "checkstyle"
+    - selector: "count(//file/error) > 0"
+      score: 0
+      message: "checkstyle errors were found"
+      name: "checkstyle"
+test:
+  name: "testNG Tests"
+  selectors:
+    - selector: "count(//testsuite[@name='edu.illinois.cs.cs125.spring2019.mp0.lib.LocatorTest']) = 0"
+      score: 0
+      message: "LocatorTest didn't compile"
+      name: "Locator"
+    - selector: "count(//testsuite[@name='edu.illinois.cs.cs125.spring2019.mp0.LocationAppTest']) = 0"
+      score: 0
+      message: "LocationAppTest didn't compile"
+      name: "App"
+    - selector: "count(//testcase[@name='testFarthestNorthSimple']) = 1 and count(//testcase[@name='testFarthestNorthSimple']//failure) > 0"
+      score: 0
+      message: "testFarthestNorthSimple failed"
+      name: "Locator"
+    - selector: "count(//testcase[@name='testFarthestNorthSimple']) = 1 and count(//testcase[@name='testFarthestNorthSimple']//failure) = 0"
+      score: 10
+      message: "testFarthestNorthSimple succeeded"
+      name: "Locator"
+    - selector: "count(//testcase[@name='testFarthestNorthRandom']) = 1 and count(//testcase[@name='testFarthestNorthRandom']//failure) > 0"
+      score: 0
+      message: "testFarthestNorthRandom failed"
+      name: "Locator"
+    - selector: "count(//testcase[@name='testFarthestNorthRandom']) = 1 and count(//testcase[@name='testFarthestNorthRandom']//failure) = 0"
+      score: 10
+      message: "testFarthestNorthRandom succeeded"
+      name: "Locator"
+    - selector: "count(//testcase[@name='testBeenHereSimple']) = 1 and count(//testcase[@name='testBeenHereSimple']//failure) > 0"
+      score: 0
+      message: "testBeenHereSimple failed"
+      name: "Locator"
+    - selector: "count(//testcase[@name='testBeenHereSimple']) = 1 and count(//testcase[@name='testBeenHereSimple']//failure) = 0"
+      score: 10
+      message: "testBeenHereSimple succeeded"
+      name: "Locator"
+    - selector: "count(//testcase[@name='testBeenHereRandom']) = 1 and count(//testcase[@name='testBeenHereRandom']//failure) > 0"
+      score: 0
+      message: "testBeenHereRandom failed"
+      name: "Locator"
+    - selector: "count(//testcase[@name='testBeenHereRandom']) = 1 and count(//testcase[@name='testBeenHereRandom']//failure) = 0"
+      score: 10
+      message: "testBeenHereRandom succeeded"
+      name: "Locator"
+    - selector: "count(//testcase[@name='testNextRandomLocationSimple']) = 1 and count(//testcase[@name='testNextRandomLocationSimple']//failure) > 0"
+      score: 0
+      message: "testNextRandomLocationSimple failed"
+      name: "Locator"
+    - selector: "count(//testcase[@name='testNextRandomLocationSimple']) = 1 and count(//testcase[@name='testNextRandomLocationSimple']//failure) = 0"
+      score: 10
+      message: "testNextRandomLocationSimple succeeded"
+      name: "Locator"
+    - selector: "count(//testcase[@name='testNextRandomLocationRandom']) = 1 and count(//testcase[@name='testNextRandomLocationRandom']//failure) > 0"
+      score: 0
+      message: "testNextRandomLocationRandom failed"
+      name: "Locator"
+    - selector: "count(//testcase[@name='testNextRandomLocationRandom']) = 1 and count(//testcase[@name='testNextRandomLocationRandom']//failure) = 0"
+      score: 10
+      message: "testNextRandomLocationRandom succeeded"
+      name: "Locator"
+    - selector: "count(//testcase[@name='centerButtonTest']) = 1 and count(//testcase[@name='centerButtonTest']//failure) > 0"
+      score: 0
+      message: "centerButtonTest failed"
+      name: "App"
+    - selector: "count(//testcase[@name='centerButtonTest']) = 1 and count(//testcase[@name='centerButtonTest']//failure) = 0"
+      score: 20
+      message: "centerButtonTest succeeded"
+      name: "App"

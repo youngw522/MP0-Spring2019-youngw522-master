@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MP0: Location</string>
+    <string name="enable_or_disable_location_recording">Enable or Disable Location Recording</string>
+    <string name="stop">Stop</string>
+    <string name="start">Start</string>
+    <string name="center">Center</string>
+    <string name="wander">Wander</string>
+</resources>

@@ -1,0 +1,9 @@
+apply plugin: 'java'
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+}
+processTestResources {
+    exclude '**/*.js'
+}
+// vim: ts=4:sw=4:et:ft=groovy
